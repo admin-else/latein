@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Namdhinggo:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Namdhinggo:wght@400;500;600;700;800&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latein Vokabel seite</title>
+  <style>
+    header {
+      background-color: #c19578;
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid #666;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    a {
+      padding: 5px;
+    }
+    body {
+      background-color: #dbdbdb;
+      width: 100%;
+      height: 100%;
+      padding: 0px;
+      margin: 0px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    td {
+      font-family: "Playfair Display", serif;
+      font-optical-sizing: auto;
+      font-style: normal;
+      background-color: #e9d2a9;
+      text-align: left;
+      border-bottom: #9c8468 2px solid;
+      border-top: #9c8468 2px solid;
+    }
+
+    .latin-vok {
+      font-weight: bold;
+    }
+
+    .latin-vok-special-cases {
+      font-family: "Playfair Display", serif;
+      font-optical-sizing: auto;
+      font-style: normal;
+    }
+
+    .german-vok {
+      font-family: "Open Sans", sans-serif;
+      font-optical-sizing: auto;
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    h2 {
+      color: #9e1108;
+      font-family: "Open Sans", sans-serif;
+      font-optical-sizing: auto;
+      font-style: normal;
+    }
+  </style>
+  <script>
+    async function main() {
+      r = await fetch("/vok.txt")
+      data = await r.text()
+      data = data.replaceAll("â", "ā")
+      data = data.replaceAll("ê", "ē")
+      data = data.replaceAll("î", "ī")
+      data = data.replaceAll("ô", "ō")
+      data = data.replaceAll("û", "ū")
+      data = data.replaceAll("ŷ", "ȳ")
+      data = data.split("\n")
+
+      table_id = 0
+      table_row_id = 0
+      data.forEach(l => {
+        if (l.startsWith("#")) {
+          table_id++
+          $("body").append(`<h2>${l.slice(1)}</h2>`)
+          $("body").append(`<table id="tb-${table_id}"></table>`)
+        } else {
+          d = l.split("|")
+          $(`#tb-${table_id}`).append(`<tr id="tr-${table_row_id}"></tr>`)
+          $(`#tr-${table_row_id}`).append(`<td class="latin-vok">${d[0]}</td>`);
+          $(`#tr-${table_row_id}`).append(`<td class="latin-vok-special-cases">${d[1]} <i>${d[2]}</i></td>`);
+          $(`#tr-${table_row_id}`).append(`<td class="german-vok">${d[3]}</td>`);
+          table_row_id++
+        }
+      });
+    }
+
+    main()
+  </script>
+</head>
+
+<body>
+  <header>
+    <a href="https://github.com/admin-else/latein/issues">Feedback / Report Error</a><a href="https://github.com/admin-else/latein">Github</a>
+  </header>
+</body>
+
+</html>
