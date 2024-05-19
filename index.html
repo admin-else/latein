@@ -76,7 +76,7 @@
   </style>
   <script>
     async function main() {
-      r = await fetch("/vok.txt")
+      r = await fetch("https://admin-else.github.io/latein/vok.txt")
       data = await r.text()
       data = data.replaceAll("â", "ā")
       data = data.replaceAll("ê", "ē")
